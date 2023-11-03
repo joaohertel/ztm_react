@@ -1,5 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { 
+  getAuth, 
+  signInWithRedirect, 
+  signOut,
+  signInWithPopup, 
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  onAuthStateChanged 
+} from 'firebase/auth';
 
 import {
   getFirestore,
@@ -32,7 +41,7 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, aditionaliInfo = {}) => {
   // see if there is an existing document reference ( special type of object fb uses when talking about
   // actual instance of a document model  doc(database, collection, uniqueId)
   const userDocRef = doc(db, 'users', userAuth.uid);
@@ -53,7 +62,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
     const createdAt = new Date();
 
     try {
-      setDoc(userDocRef,{ displayName, email, createdAt });
+      setDoc(userDocRef,{ displayName, email, createdAt, ...aditionaliInfo });
     } catch (error) {
       console.log('error in creating user = ', error.message);
     }
@@ -61,3 +70,28 @@ export const createUserDocumentFromAuth = async (userAuth) => {
   // if user exists just return user data
   return userDocRef;
 }
+
+export const createUserWithEmailAndPasswordService = async (email, password) => {
+
+  if( !email || !password ) return ;
+
+  const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+
+  return userCredentials; 
+
+}
+
+export const signUserInWithEmailAndPassword = async (email, password) => {
+
+  if( !email || !password ) return ;
+
+  const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+
+  return userCredentials; 
+
+}
+
+// auth keeps track of what user is signed in
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (nextObserver) => onAuthStateChanged(auth, nextObserver);
