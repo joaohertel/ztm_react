@@ -2,8 +2,8 @@ import { useState } from "react";
 import { createUserDocumentFromAuth, createUserWithEmailAndPasswordService } from "../../utils/firebase/firebase.utils";
 import  FormInput  from '../form-input/form-input.components';
 import Button from "../button/button.component";
-import './sign-up-form.styles.scss';
-
+import './sign-up-form.styles.jsx';
+import { SignUpContainer } from './sign-up-form.styles.jsx'
 
 const defaultValues = {
   name: "",
@@ -50,10 +50,10 @@ const SignUpForm = () => {
     }
     catch (e){
 
-      if(e.code == 'auth/email-already-in-use')
+      if(e.code === 'auth/email-already-in-use')
         alert('This email is allready in use');
       
-      if(e.code == 'auth/weak-password')
+      if(e.code === 'auth/weak-password')
         alert('Password must be at least 6 characters long');
 
     }
@@ -62,7 +62,7 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>Don't have an account</h2>
       <form onSubmit={handleSubmit}>        
         <FormInput
@@ -100,7 +100,7 @@ const SignUpForm = () => {
         <Button type='submit'>Sign up</Button>
 
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

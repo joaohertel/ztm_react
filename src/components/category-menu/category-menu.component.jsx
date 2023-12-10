@@ -1,16 +1,16 @@
-import './category-menu.styles.scss'
-import CategoryItem from '../category-item/category-item.component';
+import { DirectoryItemContainer } from './category-menu.styles.jsx'
+import DirectoryItem from '../directory-item/directory-item.component';
 
 const CategoryMenu = ({categories}) => {
 
   return (
-    <div className="categories-container">
+    <DirectoryItemContainer>
       {categories.map((category) => {
         return (
-            <CategoryItem key={category.id} categoryItem={category} />
+            <DirectoryItem key={category.id} directoryItem={category} />
         );
       })}
-    </div>
+    </DirectoryItemContainer>
   )
 }
 
