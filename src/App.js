@@ -5,9 +5,35 @@ import { Routes, Route } from "react-router-dom";
 import Authentication from "./components/routes/authentication/authentication.component";
 import { Shop } from "./components/routes/shop/shop.component";
 import { Checkout } from "./components/routes/checkout/checkout.component";
+import { useDispatch } from 'react-redux';
+import { useEffect } from "react";
+import { 
+  onAuthStateChangedListener, 
+  createUserDocumentFromAuth
+} from "./utils/firebase/firebase.utils";
+import { setUser } from "./store/user/user.action";
 
 
 const App = () => {
+
+  const dispatch = useDispatch();
+
+  
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener(async (user) => {
+      console.log("In app.js, redux code ", user);
+
+      if (user) {
+        // create user or get user from database
+        await createUserDocumentFromAuth(user);
+      }
+
+      dispatch(setUser(user));
+    });
+
+    return unsubscribe;
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>

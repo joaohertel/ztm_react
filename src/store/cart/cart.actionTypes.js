@@ -1,0 +1,10 @@
+
+
+/* Using Reducers sections */
+export const CART_ACTION_TYPES = {
+    SET_DROPDOWN_OPEN: "cart/SET_DROPDOWN_OPEN",
+    SET_CART_ITEMS: "cart/SET_CART_ITEMS",
+    SET_CART_QUANTITY_COUNT: "cart/SET_CART_QUANTITY_COUNT",
+    SET_CART_TOTAL: "cart/SET_CART_TOTAL",
+    ADD_CART_ITEM: "cart/ADD_CART_ITEM"
+  };

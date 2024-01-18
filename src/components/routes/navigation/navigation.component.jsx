@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
 import { ReactComponent as CrwnLogo } from "../../../assets/crown.svg";
 import {
@@ -7,22 +7,26 @@ import {
   NavLinksContainer,
   NavLink,
 } from "./navigation.styles";
-import { UserContext } from "../../contexts/user.context";
 import { signOutUser } from "../../../utils/firebase/firebase.utils";
 import { CartIcon } from "../../cart-icon/cart-icon.component";
 import { CartDropdown } from "../../cart-dropdown/cart-dropdown.component";
-import { CartContext } from "../../contexts/cart.context";
+import { useSelector } from "react-redux";
+import { userSelector } from "../../../store/user/user.selector";
+import { selectCartData } from "../../../store/cart/cart.selector";
 
 const Navigation = () => {
-  const { user, setUser } = useContext(UserContext);
 
-  const { dropDownOpen } = useContext(CartContext);
+  const user = useSelector(userSelector);
+
+  const cartData = useSelector(selectCartData);
+
+  const { dropDownOpen } = cartData;
 
   const HandleSignOut = async () =>{
     try{
 
       await signOutUser();
-      setUser(null);
+      // setUser(null);
     
     }
     catch (e) {

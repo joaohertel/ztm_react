@@ -7,16 +7,19 @@ import {
   Price,
   CardImage
 } from "./product-card.styles.jsx";
-import { useContext } from "react";
-import { CartContext } from "../contexts/cart.context";
+import { addCartItem } from "../../store/cart/cart.actions.js";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCartItems } from "../../store/cart/cart.selector.js";
+
 
 export const ProductCard = ({ product }) => {
   const { name, imageUrl, price } = product;
 
-  const { addCartItem } = useContext(CartContext);
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
 
   const onClickHandler = (event) => {
-    addCartItem(product);
+    dispatch(addCartItem(cartItems, product));
 
     alert("Added to the cart");
   };

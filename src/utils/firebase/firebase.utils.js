@@ -138,12 +138,9 @@ export const getCategoriesAndItems = async () => {
   // get the snapshots and reduce to build a single object that is more searchable
   const querySnapshot = await getDocs(q);
   // using reduce here to build an Object that is more easylly searchable than a List
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const data = docSnapshot.data();
-    const { title, items } = data;
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
+  const categoriesArray = querySnapshot.docs.map( docSnapshot => docSnapshot.data());
   // returning the data
-  return categoryMap;
+
+  console.log('categoriesArray = ', categoriesArray);
+  return categoriesArray;
 };
